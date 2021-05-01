@@ -22,7 +22,7 @@
     ``` 
 5. Create a database . 
     If you are using XAMPP , you can do this by visiting localhost/phpmyadmin from your browser.
-4. Setup ENV
+6. Setup ENV
 
     ```
    $ cp env.example .env
@@ -31,7 +31,7 @@
     ``` 
 
 
-5. Open .env file in text editor and change database connection to yours.
+7. Open .env file in text editor and change database connection to yours.
 
     ```
     DB_HOST=127.0.0.1
@@ -40,11 +40,11 @@
     DB_USERNAME=root
     DB_PASSWORD=your password
     ``` 
-5. Run migration and seed
+8. Run migration and seed
 
     ```
    $ php artisan migrate:fresh --seed
     ``` 
-6. Now visit => localhost/File-Archiving-System-with-Google-picker-API-using-Laravel-8
+9. Now visit => localhost/File-Archiving-System-with-Google-picker-API-using-Laravel-8
 
     NB: Do not need to run ' php artisan serve '  because google picker dosen't work in a port as like licalhost:8000 . 
