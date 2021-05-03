@@ -29,7 +29,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::get('/', 'App\Http\Controllers\Backend\DashboardController@index')->name('admin.dashboard');
     Route::resource('users', 'App\Http\Controllers\Backend\UsersController', ['names' => 'admin.users']);
     Route::get('/upload-media', 'App\Http\Controllers\Backend\FileController@index')->name('admin.media');
-Route::post('media', 'App\Http\Controllers\Backend\FileController@storeMedia')->name('projects.storeMedia');
+    Route::post('/upload-media', 'App\Http\Controllers\Backend\FileController@store')->name('admin.file.store');
+Route::post('media', 'App\Http\Controllers\Backend\FileController@storeMedia')->name('dropzone.storeMedia');
 Route::post('callback', 'App\Http\Controllers\Backend\FileController@callback')->name('drive.callback');
 Route::resource('category', 'App\Http\Controllers\Backend\CategoryController');
 Route::post('sub-categories', 'App\Http\Controllers\Backend\CategoryController@getSubCategories')->name('admin.category.sub');

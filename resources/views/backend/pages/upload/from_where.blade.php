@@ -85,13 +85,13 @@ Dashboard
                         <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fab fa-google-drive"> </i>Pick From Google Drive</a>
                     </div>
                     <div class="nav flex-column nav-pills mr-4 mb-3 mb-sm-0 col-lg-9">
-                    <form action="" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('admin.file.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
                               <label for="inputEmail4">Category</label>
                               <select class="form-control form-control-lg" id="category" name="category">
-                                <option>Select Category</option>
+                                <option value="">Select Category</option>
                                 @foreach ($categories as $key=> $category )
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
@@ -99,8 +99,7 @@ Dashboard
                             </div>
                             <div class="form-group col-md-6" id="sub-cat-aria" hidden>
                               <label for="inputPassword4">Sub Category</label>
-                              <select class="form-control form-control-lg" id="sub-category" name="sub-category">
-
+                              <select class="form-control form-control-lg" id="sub-category" name="sub_category">
                               </select>
                             </div>
                           </div>
@@ -139,7 +138,7 @@ Dashboard
 <script>
   var uploadedDocumentMap = {}
   Dropzone.options.documentDropzone = {
-    url: '{{ route('projects.storeMedia') }}',
+    url: '{{ route('dropzone.storeMedia') }}',
     maxFilesize: 100, // MB
     addRemoveLinks: true,
     headers: {

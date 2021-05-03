@@ -105,7 +105,7 @@ class CategoryController extends Controller
 
         $categoryId = $request->categoryId;
         $html = '';
-        $html  .= "<option>Select Sub-Category</option>";
+        $html  .= "<option value='' >Select Sub-Category</option>";
         $subCat = Category::with('children')->where('parent_id',$categoryId)->get();
         $hatData = isset($subCat[0])?true:false;
 

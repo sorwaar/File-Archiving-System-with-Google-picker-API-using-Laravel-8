@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Backend;
-use Illuminate\Support\Facades\Storage;
+use App\Models\File;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class FileController extends Controller
 {
@@ -38,13 +40,34 @@ class FileController extends Controller
 
     public function store(Request $request)
     {
-        $project = Project::create($request->all());
 
-        foreach ($request->input('document', []) as $file) {
-            $project->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('document');
-        }
+        $data = $request->all();
+        $category_id = empty($request->category)?null:(empty($request->sub_category)?$request->category:$request->sub_category);
+        $finalArray = array();
+        $from_path = storage_path('temp').'/uploads/'.md5(Auth::id());
+        $to_path = storage_path('main').'/uploads/'.md5(Auth::id());
+        foreach($data['document'] as $key=>$document){
+            $file_type = pathinfo($document, PATHINFO_EXTENSION);
 
-        return redirect()->route('projects.index');
+        array_push($finalArray, array(
+                        'user_id'=> Auth::id(),
+                        'category_id'=> $category_id,
+                        'file_type'=>$file_type,
+                        'file_name'=>$document,
+                        'status'=>1
+
+                    ));
+        Storage::move($from_path.'/'.$document, $to_path.'/'.$document);
+        };
+
+        File::insert($finalArray);
+
+
+        // foreach ($request->input('document', []) as $file) {
+        //     $project->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('document');
+        // }
+
+        return redirect()->route('admin.media');
     }
 
     // public function update(UpdateProjectRequest $request, Project $project)
