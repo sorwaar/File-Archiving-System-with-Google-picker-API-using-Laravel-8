@@ -20,7 +20,7 @@ class FileController extends Controller
 
     public function storeMedia(Request $request)
     {
-        $path = storage_path('temp/uploads/'.md5(Auth::id()));
+        $path = storage_path('uploads/temp/'.md5(Auth::id()));
 
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
@@ -44,8 +44,12 @@ class FileController extends Controller
         $data = $request->all();
         $category_id = empty($request->category)?null:(empty($request->sub_category)?$request->category:$request->sub_category);
         $finalArray = array();
-        $from_path = storage_path('temp').'/uploads/'.md5(Auth::id());
-        $to_path = storage_path('main').'/uploads/'.md5(Auth::id());
+        $from_path = '/temp/'.md5(Auth::id());
+        $to_path = '/main/'.md5(Auth::id());
+        $storage_path = storage_path('uploads/main/'.md5(Auth::id()));
+        if (!file_exists($storage_path)) {
+            mkdir($storage_path, 0700, true);
+        }
         foreach($data['document'] as $key=>$document){
             $file_type = pathinfo($document, PATHINFO_EXTENSION);
 
@@ -57,7 +61,7 @@ class FileController extends Controller
                         'status'=>1
 
                     ));
-        Storage::move($from_path.'/'.$document, $to_path.'/'.$document);
+        Storage::disk('uploads')->move($from_path.'/'.$document, $to_path.'/'.$document);
         };
 
         File::insert($finalArray);
@@ -135,7 +139,7 @@ class FileController extends Controller
             $error = curl_error($ch);
             curl_close($ch);
 
-            $path = storage_path('temp/uploads/'.md5(Auth::id()));
+            $path = storage_path('uploads/temp/'.md5(Auth::id()));
 
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
@@ -147,7 +151,7 @@ class FileController extends Controller
 
             file_put_contents($path.'/'.$name,$data);
             //Storage::put($path.'/'.$file_name, $data);
-            $link = asset('storage/temp/uploads/'.md5(Auth::id()).'/'.$name);
+            $link = asset('storage/uploads/temp'.md5(Auth::id()).'/'.$name);
 
             return response()->json([
                 'name'          => $name,

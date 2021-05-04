@@ -51,21 +51,10 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
-        'drive' => [
-            'driver' => 'local',
-            'root' => storage_path('drive'),
-        ],
-        'temp' => [
-            'driver' => 'local',
-            'root' => storage_path('temp'),
-        ],
-        'main' => [
-            'driver' => 'local',
-            'root' => storage_path('main'),
-        ],
 
-        'links' => [
-            public_path('storage') => storage_path('app/public'),
+        'uploads' => [
+            'driver' => 'local',
+            'root' => storage_path('uploads'),
         ],
 
     ],
