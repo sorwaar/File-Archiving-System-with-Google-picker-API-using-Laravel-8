@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -15,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('children')->whereNull('parent_id')->get();
+        $categories = Category::with('children')->whereNull('parent_id')->where('created_by', Auth::id())->get();
 
       return view('backend.pages.categories.index')->with([
         'categories'  => $categories
@@ -40,12 +41,20 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+
         $validatedData = $this->validate($request, [
                 'name'      => 'required|min:3|max:255|string',
                 'parent_id' => 'sometimes|nullable|numeric'
         ]);
 
-        Category::create($validatedData);
+
+
+
+        $category = new Category;
+        $category->parent_id = $request->parent_id;
+        $category->name = $request->name;
+        $category->created_by = Auth::id();
+        $category->save();
 
         return redirect()->route('category.index')->withSuccess('You have successfully created a Category!');
     }
@@ -80,7 +89,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Category $category)
-{
+    {
         $validatedData = $this->validate($request, [
             'name'  => 'required|min:3|max:255|string'
         ]);
@@ -88,7 +97,7 @@ class CategoryController extends Controller
         $category->update($validatedData);
 
         return redirect()->route('category.index')->withSuccess('You have successfully updated a Category!');
-}
+    }
 
     /**
      * Remove the specified resource from storage.

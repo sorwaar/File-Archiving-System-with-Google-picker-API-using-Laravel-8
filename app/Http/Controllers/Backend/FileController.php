@@ -14,13 +14,15 @@ class FileController extends Controller
 {
     public function index()
     {
-        $categories = Category::with('children')->whereNull('parent_id')->get();
+        $categories = Category::with('children')->whereNull('parent_id')->where('created_by',Auth::id())->get();
         return view('backend.pages.upload.from_where',compact('categories'));
     }
 
     public function storeMedia(Request $request)
     {
-        $path = storage_path('uploads/temp/'.md5(Auth::id()));
+
+        $path = public_path('uploads/temp/'.md5(Auth::id()));
+        //$path = storage_path('uploads/temp/'.md5(Auth::id()));
 
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
@@ -46,9 +48,9 @@ class FileController extends Controller
         $finalArray = array();
         $from_path = '/temp/'.md5(Auth::id());
         $to_path = '/main/'.md5(Auth::id());
-        $storage_path = storage_path('uploads/main/'.md5(Auth::id()));
+        $storage_path = public_path('uploads/main/'.md5(Auth::id()));
         if (!file_exists($storage_path)) {
-            mkdir($storage_path, 0700, true);
+            mkdir($storage_path, 0777, true);
         }
         foreach($data['document'] as $key=>$document){
             $file_type = pathinfo($document, PATHINFO_EXTENSION);
@@ -61,7 +63,7 @@ class FileController extends Controller
                         'status'=>1
 
                     ));
-        Storage::disk('uploads')->move($from_path.'/'.$document, $to_path.'/'.$document);
+        Storage::disk('public')->move($from_path.'/'.$document, $to_path.'/'.$document);
         };
 
         File::insert($finalArray);
