@@ -21,8 +21,9 @@ class FileController extends Controller
     public function storeMedia(Request $request)
     {
 
-        $path = public_path('uploads/temp/'.md5(Auth::id()));
-        //$path = storage_path('uploads/temp/'.md5(Auth::id()));
+        // $path = Storage::disk('uploads').'temp/'.md5(Auth::id());
+        // dd($path);
+        $path = storage_path('app/public/uploads/temp/'.md5(Auth::id()));
 
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
@@ -44,11 +45,12 @@ class FileController extends Controller
     {
 
         $data = $request->all();
-        $category_id = empty($request->category)?null:(empty($request->sub_category)?$request->category:$request->sub_category);
+        //dd($data);
+        $category_id = empty($request->category)?0:(empty($request->sub_category)?$request->category:$request->sub_category);
         $finalArray = array();
         $from_path = '/temp/'.md5(Auth::id());
         $to_path = '/main/'.md5(Auth::id());
-        $storage_path = public_path('uploads/main/'.md5(Auth::id()));
+        $storage_path = public_path('app/public/uploads/main/'.md5(Auth::id()));
         if (!file_exists($storage_path)) {
             mkdir($storage_path, 0777, true);
         }
@@ -63,7 +65,8 @@ class FileController extends Controller
                         'status'=>1
 
                     ));
-        Storage::disk('public')->move($from_path.'/'.$document, $to_path.'/'.$document);
+
+        Storage::disk('uploads')->move($from_path.'/'.$document, $to_path.'/'.$document);
         };
 
         File::insert($finalArray);
@@ -141,7 +144,7 @@ class FileController extends Controller
             $error = curl_error($ch);
             curl_close($ch);
 
-            $path = storage_path('uploads/temp/'.md5(Auth::id()));
+            $path = storage_path('app/public/uploads/temp/'.md5(Auth::id()));
 
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
@@ -153,7 +156,7 @@ class FileController extends Controller
 
             file_put_contents($path.'/'.$name,$data);
             //Storage::put($path.'/'.$file_name, $data);
-            $link = asset('storage/uploads/temp'.md5(Auth::id()).'/'.$name);
+            $link = asset('storage/uploads/temp/'.md5(Auth::id()).'/'.$name);
 
             return response()->json([
                 'name'          => $name,
@@ -171,5 +174,34 @@ class FileController extends Controller
         // return $data;
 
 
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+
+    public function viewCategory($id)
+    {
+        $categoryFiles = Category::with('files','children')->where('id',$id)->where('created_by',Auth::id())->first();
+        $path = asset('storage/uploads/main/'.md5(Auth::id()));
+        //dd($categoryFiles->files->count());
+        return view('backend.pages.upload.files',compact('categoryFiles','path'));
+    }
+
+    public function delete($id){
+        $file = File::where('id',$id)->where('user_id',Auth::id())->first();
+        //$image_path = asset('storage/uploads/main/'.md5(Auth::id())).'/'.$file->file_name;
+        Storage::delete('app/public/uploads/app/main/'.md5(Auth::id()).'/'.$file->file_name);
+            // if (file_exists($image_path)) {
+            //     dd('here');
+
+            //     @unlink($image_path);
+
+            // }
+            return redirect()->route('admin.dashboard');
     }
 }

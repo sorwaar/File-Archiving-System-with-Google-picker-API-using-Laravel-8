@@ -25,7 +25,7 @@
 6. Setup ENV
 
     ```
-   $ cp env.example .env
+   $ cp .env.example .env
    
    $ php artisan key:generate
     ``` 
@@ -45,6 +45,9 @@
     ```
    $ php artisan migrate:fresh --seed
     ``` 
-9. Now visit => localhost/File-Archiving-System-with-Google-picker-API-using-Laravel-8
+9. Now Prom Project root 
 
-    NB: Do not need to run ' php artisan serve '  because google picker dosen't work in a port as like licalhost:8000 . 
+     ```
+   $ php artisan serve
+    ``` 
+

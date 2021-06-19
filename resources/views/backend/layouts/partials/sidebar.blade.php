@@ -15,6 +15,9 @@
 
                     <li class="{{ Route::is('category.index') ? 'active' : '' }}"><a href="{{ route('category.index') }}">Categories</a></li>
                     <li class="{{ Route::is('admin.media') ? 'active' : '' }}"><a href="{{route('admin.media')}}">Upload Files</a></li>
+                    <br>
+                    <li ><a href="{{route('admin.logout')}}">Log Out</a></li>
+
                 </ul>
             </nav>
         </div>

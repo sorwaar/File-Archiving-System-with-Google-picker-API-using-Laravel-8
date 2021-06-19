@@ -12,6 +12,8 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
+        "setasign/fpdf": "^1.8",
+        "setasign/fpdi-fpdf": "^2.3",
         "spatie/laravel-medialibrary": "^9.5"
     },
     "require-dev": {

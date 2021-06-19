@@ -33,6 +33,9 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 Route::post('media', 'App\Http\Controllers\Backend\FileController@storeMedia')->name('dropzone.storeMedia');
 Route::post('callback', 'App\Http\Controllers\Backend\FileController@callback')->name('drive.callback');
 Route::resource('category', 'App\Http\Controllers\Backend\CategoryController');
+Route::get('view-category-files/{id}', 'App\Http\Controllers\Backend\FileController@viewCategory')->name('admin.category.files');;
 Route::post('sub-categories', 'App\Http\Controllers\Backend\CategoryController@getSubCategories')->name('admin.category.sub');
+Route::get('logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('admin.logout');
+Route::get('/delete-file/{id}', 'App\Http\Controllers\Backend\FileController@delete')->name('admin.file.delete');
 
 });

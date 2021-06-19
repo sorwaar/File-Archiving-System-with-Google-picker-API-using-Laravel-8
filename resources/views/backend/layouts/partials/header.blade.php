@@ -20,8 +20,9 @@
             <ul class="notification-area pull-right">
 
                 <li class="settings-btn">
+                    <span class="user-name" style="color: #212529"> {{auth()->user()->name}}</span>
                     <img class="avatar user-thumb" src="{{asset('assets/backend/images/author/avatar.png')}}">
-                    <span class="user-name" style="color: #212529" data-toggle="dropdown"> <i class="fa fa-angle-right"></i></span>
+
                 </li>
                 <li id="full-view"><i class="ti-fullscreen"></i></li>
                 <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
