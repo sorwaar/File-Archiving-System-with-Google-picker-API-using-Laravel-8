@@ -45,7 +45,14 @@
     ```
    $ php artisan migrate:fresh --seed
     ``` 
-9. Now Prom Project root 
+
+9. Link storage folder with public
+
+    ```
+   $ php artisan storage:link
+    ``` 
+      
+10. Now Prom Project root 
 
      ```
    $ php artisan serve
