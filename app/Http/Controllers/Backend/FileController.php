@@ -202,6 +202,8 @@ class FileController extends Controller
             //     @unlink($image_path);
 
             // }
+            File::where('id',$id)->where('user_id',Auth::id())->delete();
+
             return redirect()->route('admin.dashboard');
     }
 }
