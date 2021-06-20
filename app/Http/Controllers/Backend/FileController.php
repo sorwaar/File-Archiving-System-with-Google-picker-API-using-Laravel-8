@@ -187,6 +187,7 @@ class FileController extends Controller
     public function viewCategory($id)
     {
         $categoryFiles = Category::with('files','children')->where('id',$id)->where('created_by',Auth::id())->first();
+
         $path = asset('storage/uploads/main/'.md5(Auth::id()));
         //dd($categoryFiles->files->count());
         return view('backend.pages.upload.files',compact('categoryFiles','path'));

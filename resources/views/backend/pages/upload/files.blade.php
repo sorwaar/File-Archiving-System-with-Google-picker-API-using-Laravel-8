@@ -112,7 +112,7 @@ display:inline-block;
                                 <img src="{{asset('assets/backend/images/files.jpg')}}" alt="" class="img-fluid card-img-top">
                             @endif
                             <div class="p-4">
-                                <h5> <a href="#" class="text-dark">{{$file->category?$file->category->name:'Uncategorised'}}</a></h5>
+                                <h5> <a href="#" class="text-dark">{{$categoryFiles->name}}</a></h5>
                                 <p class="small text-muted mb-0">{{substr_replace($file->file_name, "", 40)}}</p>
                                 <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
                                 <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">{{strtoupper($file->file_type)}}</span></p>
