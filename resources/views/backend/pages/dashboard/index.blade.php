@@ -175,10 +175,9 @@ function pickerCallback(data) {
             type:"POST",
             data: data,
             success:function(resp){
-                console.log(resp);
+                document.getElementById('result').innerHTML = "";
                 if(resp) {
                     var link = resp.link;
-                    document.getElementById('result').innerHTML = "Download completed";
                     var message = '<img src="'+link+'" />';
                     document.getElementById('result').innerHTML = message;
                 }
