@@ -118,6 +118,7 @@ Dashboard
                                     <div class="drivezone"  onclick="onApiLoad()">
 
                                         <div class="dz-default dz-message"><span>Pick google drive files</span></div>
+                                        <div id="text" class="text"></div>
                                         <div id="result" class="result"></div>
                                     </div>
                                 </div>
@@ -199,7 +200,7 @@ Dashboard
                     //console.log(data.access_token);
                     // $.each( file, function( index, value ){
 
-                        $('#result').append("<div><span>Downloading...<span></div>");
+                        $('#text').html("<div id='down'><span>Downloading...<span></div>");
                     // })
 
                 $.ajax({
@@ -209,15 +210,20 @@ Dashboard
                     success:function(resp){
                         console.log(resp);
                         if(resp) {
+
                         //    var links =  resp.links;
                         //    $('#result').html('');
                         //     $.each( links, function( index, value ){
                         //     var link = value;
                         //     console.log(link);
                             var message = '<img src="'+resp.link+'" />';
+
                         $('#result').append(message);
-                        $('form').append('<input type="hidden" name="document[]" value="' + resp.name + '">')
-                        uploadedDocumentMap[file.name] = resp.name
+                        $('form').append('<input type="hidden" name="document[]" value="' + resp.name + '">');
+                        $('#text').empty();
+                        uploadedDocumentMap[file.name] = resp.name;
+
+
 
                         };
                     },
